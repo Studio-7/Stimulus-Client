@@ -39,12 +39,14 @@ function sign(phrase){
                 document.getElementById("address").value = accounts[0];
                 document.getElementById("sign").value = sign;
                 document.getElementById("phrase").value = keyphrase;
-                // var form = document.getElementById("uploadForm");
-                // form.submit();
+                var form = document.getElementById("uploadForm");
+                form.submit();
             });
     });
 }
+function submit() {
+    sign(toHex(keyphrase));
+}
 
-sign(toHex(keyphrase));
 
 
