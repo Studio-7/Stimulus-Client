@@ -36,7 +36,7 @@ function sign(phrase){
                     throw err;
                 }
                 console.log(sign);
-                document.getElementById("address").value = accounts[0];
+                // document.getElementById("address").value = accounts[0];
                 document.getElementById("sign").value = sign;
                 document.getElementById("phrase").value = keyphrase;
                 var form = document.getElementById("uploadForm");
@@ -45,7 +45,13 @@ function sign(phrase){
     });
 }
 function submit() {
-    sign(toHex(keyphrase));
+    if(document.getElementById("title").value == "") {
+        alert("Title cannot be empty");
+    }
+    else {
+        sign(toHex(keyphrase));
+    }
+    
 }
 
 
