@@ -84,14 +84,15 @@ function subscribe() {
 }
 
 function getNews() {
-    const phrase = createPhrase(32);
+    // const phrase = createPhrase(32);
     const channel = "0x2a5f493594ef5e7d81448c237dfb87003485fce5";
-    sign(toHex(phrase), function(sign) {
+    // sign(toHex(phrase), function(sign) {
+    // });
+
         const url = "http://localhost:3000/news/"+channel;
         getRequest(url, function(resp) {
             document.getElementById("articles").innerText = resp;
         });
-    });
 }
 
 function postData(data, server) {
