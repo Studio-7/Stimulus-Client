@@ -6,8 +6,6 @@ else {
     window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"))
 }
 
-const server = "http://localhost:3000/login";
-
 var keyphrase = createPhrase(32);
 document.getElementById("submitBtn").addEventListener('click', (event) => {
     event.preventDefault();
@@ -41,6 +39,7 @@ function sign(phrase, callback){
             if(err) {
                 throw err;
             }
+            console.log(sign);
             callback(sign);
             // document.getElementById("address").value = accounts[0];
         });
@@ -70,17 +69,55 @@ function login() {
     const keyphrase = createPhrase(32);
     sign(toHex(keyphrase), function(sign) {
         console.log("Sign: " + sign);
-        var xhttp = new XMLHttpRequest();
-        xhttp.open("POST", server);
-        xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhttp.send("name="+name+"&bio="+bio+"&sign="+sign+"&phrase="+keyphrase);
-        xhttp.onreadystatechange = function() {
-            if(xhttp.readyState ===4 && xhttp.status === 200) {
-                alert("Logged in!");
-            }
-            console.log(xhttp.responseText);
-        }
-        
+        const server = "http://localhost:3000/login";
+        postData("name="+name+"&bio="+bio+"&sign="+sign+"&phrase="+keyphrase, server);
     });
+}
+
+function subscribe() {
+    const phrase = createPhrase(32);
+    const channel = "Channel2"; //window.sessionStorage.getItem("channel");
+    sign(toHex(phrase), function(sign) {
+        const server = "http://localhost:3000/channel/subscribe";
+        postData("sign="+sign+"&phrase="+phrase+"&channel="+channel, server);
+    });
+}
+
+function getNews() {
+    const phrase = createPhrase(32);
+    const channel = "0x2a5f493594ef5e7d81448c237dfb87003485fce5";
+    sign(toHex(phrase), function(sign) {
+        const url = "http://localhost:3000/news/"+channel;
+        getRequest(url, function(resp) {
+            document.getElementById("articles").innerText = resp;
+        });
+    });
+}
+
+function postData(data, server) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST", server);
+    xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhttp.send(data);
+    xhttp.onreadystatechange = function() {
+        if(xhttp.readyState === 4 && xhttp.status === 200) {
+            alert("Successful!");
+        }
+        console.log(xhttp.responseText);
+    }
+}
+
+function getRequest(url, callback) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("GET", url, true);
+    console.log(url);
+    xhttp.send();
+    xhttp.onreadystatechange = function() {
+        if(xhttp.readyState === 4 && xhttp.status === 200) {
+            alert("Successful!");
+        }
+        console.log(xhttp.responseText);
+        callback(xhttp.responseText);
+    }
 }
 
