@@ -112,6 +112,8 @@ function login() {
     });
 }
 
+//Subscribe to a channel (user)
+//Change the channel variable
 function subscribe() {
     const phrase = createPhrase(32);
     const channel = "0x2a5F493594eF5E7d81448c237dFB87003485fce5"; //window.sessionStorage.getItem("channel");
@@ -121,6 +123,7 @@ function subscribe() {
     });
 }
 
+//Gets news published by that particular user
 function getNews() {
     // const phrase = createPhrase(32);
     const channel = "0x2a5f493594ef5e7d81448c237dfb87003485fce5";
@@ -133,6 +136,7 @@ function getNews() {
         });
 }
 
+//Gets the news articles from the user's subscribed channels
 function getAllNews() {
     const phrase = createPhrase(32);
     sign(toHex(phrase), function(sign) {
@@ -142,6 +146,7 @@ function getAllNews() {
     });
 }
 
+//Makes a get request to search article titles with the given keyword
 function searchNews() {
     const keyword = document.getElementById("query").value
     const server = "http://localhost:3000/news/search/"+keyword;
@@ -179,11 +184,13 @@ function getRequest(url, callback) {
     }
 }
 
+//To write the article hash to the blockchain
 function writeToBlockchain(hash, duration) {
-    mining.methods.addArticle(hash, duration).send().then((tx) => console.log(tx));
+    mining.methods.addArticle(hash, duration).send();
 }
 
 //Events Listeners
+//Will be executed when the article hash will be successfully written to the blockchain
 miningEvent.events.ArticleAdded(function(err, res) {
     console.log(res.returnValues.ipfsHash);
 });
