@@ -6,6 +6,19 @@ else {
     window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"))
 }
 
+const contractABI = [{"anonymous":false,"inputs":[{"indexed":false,"name":"ipfsHash","type":"string"}],"name":"VotingEnded","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"ipfsHash","type":"string"},{"indexed":false,"name":"voter","type":"address"}],"name":"Voted","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"ipfsHash","type":"string"},{"indexed":false,"name":"accepted","type":"bool"}],"name":"Accepted","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"author","type":"address"},{"indexed":false,"name":"reputation","type":"uint256"}],"name":"ReputationUpdate","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"ipfsHash","type":"string"},{"indexed":false,"name":"author","type":"address"}],"name":"ArticleAdded","type":"event"},{"constant":false,"inputs":[{"name":"ipfsHash","type":"string"},{"name":"duration","type":"uint256"}],"name":"addArticle","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"ipfsHash","type":"string"},{"name":"castVote","type":"bool"}],"name":"vote","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"ipfsHash","type":"string"}],"name":"getVotes","outputs":[{"name":"yays","type":"uint256"},{"name":"nays","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"ipfsHash","type":"string"}],"name":"checkDeadline","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"_author","type":"address"}],"name":"getReputation","outputs":[{"name":"reputation","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"}];
+const contractAddress = '0xec05fe41ad1360b214377396c9a95b806b608f5e';
+
+var account;
+var mining;
+const web3Events = new Web3(new Web3.providers.WebsocketProvider('wss://ropsten.infura.io/ws'));
+var miningEvent = new web3Events.eth.Contract(contractABI, contractAddress);
+
+window.web3.eth.getAccounts((error, accounts) => {
+    account = accounts[0];
+    mining = new web3.eth.Contract(contractABI, contractAddress, {from: account});
+});
+
 var keyphrase = createPhrase(32);
 document.getElementById("submitBtn").addEventListener('click', (event) => {
     event.preventDefault();
@@ -70,6 +83,9 @@ function submit() {
                 timeout: 600000,
                 success: function(data) {
                     console.log(JSON.stringify(data));
+                    writeToBlockchain(data.hash, 2);
+                    //Write to the blockchain
+
                 },
                 error: function(err) {
                     console.log(err);
@@ -163,3 +179,11 @@ function getRequest(url, callback) {
     }
 }
 
+function writeToBlockchain(hash, duration) {
+    mining.methods.addArticle(hash, duration).send().then((tx) => console.log(tx));
+}
+
+//Events Listeners
+miningEvent.events.ArticleAdded(function(err, res) {
+    console.log(res.returnValues.ipfsHash);
+});
