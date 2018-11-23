@@ -39,7 +39,7 @@ function sign(phrase, callback){
             if(err) {
                 throw err;
             }
-            console.log(sign);
+            // console.log(sign);
             callback(sign);
             // document.getElementById("address").value = accounts[0];
         });
@@ -53,10 +53,32 @@ function submit() {
     }
     else {
         sign(toHex(keyphrase), function(sign) {
+            const server = "http://localhost:3000/upload";
+            var form = $('#uploadForm')[0];
             document.getElementById("sign").value = sign;
             document.getElementById("phrase").value = keyphrase;
-            var form = document.getElementById("uploadForm");
-            form.submit();
+            var data = new FormData(form);
+
+            $.ajax({
+                type: 'POST',
+                enctype: 'multipart/form-data',
+                url: server,
+                data: data,
+                processData: false,
+                contentType: false,
+                cache: false,
+                timeout: 600000,
+                success: function(data) {
+                    console.log(JSON.stringify(data));
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+            });
+            // document.getElementById("sign").value = sign;
+            // document.getElementById("phrase").value = keyphrase;
+            // var form = document.getElementById("uploadForm");
+            // form.submit();
         });
     }
 }
@@ -76,7 +98,7 @@ function login() {
 
 function subscribe() {
     const phrase = createPhrase(32);
-    const channel = "Channel2"; //window.sessionStorage.getItem("channel");
+    const channel = "0x2a5F493594eF5E7d81448c237dFB87003485fce5"; //window.sessionStorage.getItem("channel");
     sign(toHex(phrase), function(sign) {
         const server = "http://localhost:3000/channel/subscribe";
         postData("sign="+sign+"&phrase="+phrase+"&channel="+channel, server);
@@ -95,6 +117,23 @@ function getNews() {
         });
 }
 
+function getAllNews() {
+    const phrase = createPhrase(32);
+    sign(toHex(phrase), function(sign) {
+        const server = "http://localhost:3000/news/getNews";
+        const mined = "false";
+        postData("sign="+sign+"&phrase="+phrase+"&mined="+mined, server);
+    });
+}
+
+function searchNews() {
+    const keyword = document.getElementById("query").value
+    const server = "http://localhost:3000/news/search/"+keyword;
+    getRequest(server, function(val) {
+        console.log("Resp: "+val);
+    });
+}
+
 function postData(data, server) {
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", server);
@@ -102,9 +141,10 @@ function postData(data, server) {
     xhttp.send(data);
     xhttp.onreadystatechange = function() {
         if(xhttp.readyState === 4 && xhttp.status === 200) {
-            alert("Successful!");
+            // alert("Successful!");
+            console.log("Successful");
         }
-        console.log(xhttp.responseText);
+        // console.log(xhttp.responseText);
     }
 }
 
@@ -115,9 +155,10 @@ function getRequest(url, callback) {
     xhttp.send();
     xhttp.onreadystatechange = function() {
         if(xhttp.readyState === 4 && xhttp.status === 200) {
-            alert("Successful!");
+            // alert("Successful!");
+            console.log("Successful");
         }
-        console.log(xhttp.responseText);
+        // console.log(xhttp.responseText);
         callback(xhttp.responseText);
     }
 }
