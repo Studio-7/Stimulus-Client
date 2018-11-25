@@ -274,9 +274,9 @@
             getNews(address, bindResp)
 
             window.web3.eth.getAccounts((error, accounts) => {
-                account = accounts[0];
-                console.log(account);
-                if(address == accounts) {
+                account = accounts[0].toLowerCase();
+                console.log("T: "+account+" "+address);
+                if(address == account) {
                     $('#withdraw').show();
                     $('#balance').show();
                     console.log("True")
