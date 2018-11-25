@@ -153,20 +153,16 @@ function getAllNews(mined, callback) {
 }
 
 //Makes a get request to search article titles with the given keyword
-function searchNews() {
+function searchNews(callback) {
     const keyword = document.getElementById("query").value
     const server = "http://"+ip+"/news/search/"+keyword;
-    getRequest(server, function(val) {
-        console.log("Resp: "+val);
-    });
+    getRequest(server, callback);
 }
 
-function searchUsers() {
+function searchUsers(callback) {
     const keyword = document.getElementById("query").value
     const server = "http://"+ip+"/news/users/search/"+keyword;
-    getRequest(server, function(val) {
-        console.log("Resp: "+val);
-    });
+    getRequest(server, callback);
 }
 
 function voteYes(ipfsHash) {
