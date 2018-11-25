@@ -6,13 +6,13 @@ function jsonToDiv(json1, json2, parent) {
     html1 += json1.title
     html1 += "</h5><p class='card-text'>"
     html1 += json1.author
-    html1 += "</p><a href='#' class='button'>"
+    html1 += "</p><a href='"+"/Web/newsView.html?hash="+json1._id+"'"+"class='button'>Open"
     html1 += "</a></div></div></div>"
     html2 += "<div class='col-sm-6'><div class='card'><img class='card-img-top' src=''><div class='card-body'><h5 class='card-title'>";
     html2 += json2.title
     html2 += "</h5><p class='card-text'>"
     html2 += json2.author
-    html2 += "</p><a href='#' class='button'>"
+    html2 += "</p><a href='"+"/Web/newsView.html?hash="+json2._id+"'"+"class='button'>Open"
     html2 += "</a></div></div></div></div>"
 
     $('#home').append(html1+html2);
