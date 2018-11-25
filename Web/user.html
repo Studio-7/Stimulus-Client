@@ -197,7 +197,7 @@
         <form>
                         <button type="button" id="withdraw" class="button" style="font-size: 14px">Withdraw</button>
             <br/>
-                        <button type="button" class="button2" style="font-size: 18px">Subscribe</button>
+                        <button type="button" id="subscribe" class="button2" style="font-size: 18px">Subscribe</button>
         </form>
     </div>
 
@@ -255,6 +255,7 @@
     <script src="../js/ui.js"></script>
     <script type="text/javascript">
         $('#withdraw').hide();
+        $('#balance').hide();
         window.onload = function() {
 
             console.log(location.href);
@@ -277,6 +278,7 @@
                 console.log(account);
                 if(address == accounts) {
                     $('#withdraw').show();
+                    $('#balance').show();
                     console.log("True")
                 }
                 getPendingBalance(function(res) {
@@ -284,7 +286,12 @@
                 $('#balance').text(res+" STM")
                 });
             });
-
+            
+            $('#subscribe').click(function() {
+                subscribe(address, function(resp) {
+                    console.log(res)
+                })
+            })
             
         }
     </script>

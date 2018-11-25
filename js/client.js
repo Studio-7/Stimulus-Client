@@ -119,9 +119,9 @@ function login(callback) {
 
 //Subscribe to a channel (user)
 //Change the channel variable
-function subscribe(callback) {
+function subscribe(channel, callback) {
     const phrase = createPhrase(32);
-    const channel = "0x2a5F493594eF5E7d81448c237dFB87003485fce5"; //window.sessionStorage.getItem("channel");
+    // const channel = "0x2a5F493594eF5E7d81448c237dFB87003485fce5"; //window.sessionStorage.getItem("channel");
     sign(toHex(phrase), function(sign) {
         const server = "http://"+ip+"/channel/subscribe";
         postData("sign="+sign+"&phrase="+phrase+"&channel="+channel, server, callback);
