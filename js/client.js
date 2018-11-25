@@ -20,7 +20,6 @@ window.web3.eth.getAccounts((error, accounts) => {
     account = accounts[0];
     console.log(account);
     mining = new web3.eth.Contract(contractABI, contractAddress, {from: account});
-    getPendingBalance();
 });
 
 var keyphrase = createPhrase(32);
@@ -217,8 +216,12 @@ function writeToBlockchain(hash, duration) {
     mining.methods.addArticle(hash, duration).send().then((tx) => console.log(tx));
 }
 
-function getPendingBalance() {
-    mining.methods.getPendingBalance().call().then((res) => console.log(res));
+function getPendingBalance(callback) {
+    // console.log("Balance: ")
+    mining.methods.getPendingBalance().call().then((res) => {
+        // console.log(res);
+        callback(res);
+    });
 }
 
 //Events Listeners
