@@ -205,9 +205,10 @@ function getRequest(url, callback) {
         if(xhttp.readyState === 4 && xhttp.status === 200) {
             // alert("Successful!");
             console.log("Successful");
+            callback(xhttp.responseText);
         }
         // console.log(xhttp.responseText);
-        callback(xhttp.responseText);
+        
     }
 }
 

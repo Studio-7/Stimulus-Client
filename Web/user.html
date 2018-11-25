@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <script src="./web3/dist/web3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
 
     <style>
@@ -189,8 +190,8 @@
 <body>
 
     <div class="jumbotron text-center">
-        <h1>Welcome, John Doe!</h1>
-        <p style="color:#43aa8b">Just an avid reader</p>
+        <h1 id="headingName"></h1>
+        <p id="headingBio" style="color:#43aa8b"></p>
         <br />
         <p style="color: #fffaff">Balance : 100 STM</p>
         <form>
@@ -424,5 +425,23 @@
         </div>
 
     </div>
+    <script src="../js/client.js"></script>
+    <script type="text/javascript">
+        window.onload = function() {
+            console.log(location.href);
+            var query = location.href.split("?")[1];
+            var address = query.split("=")[1]
+            console.log(address)
+            const server = "http://35.229.66.18:3000/"+address
+            //Sets
+            getRequest(server, function(resp){
+                json = JSON.parse(resp)
+                console.log(json)
+                console.log(json[0].name)
+                $('#headingName').text(json[0].name)
+                $('#headingBio').text(json[0].bio)
+            })
+        }
+    </script>
     </body>
 </html>

@@ -4,14 +4,14 @@ function jsonToDiv(json1, json2, parent) {
     var html2;
     html1 += "<div class='row'><div class='col-sm-6'><div class='card'><img class='card-img-top' src=''><div class='card-body'><h5 class='card-title'>";
     html1 += json1.title
-    html1 += "</h5><p class='card-text'>"
-    html1 += json1.author
+    html1 += "</h5><p class='card-text'><a href='/Web/user.html?user="+json1.author+"'>"
+    html1 += json1.author+"</a>"
     html1 += "</p><a href='"+"/Web/newsView.html?hash="+json1._id+"'"+"class='button'>Open"
     html1 += "</a></div></div></div>"
     html2 += "<div class='col-sm-6'><div class='card'><img class='card-img-top' src=''><div class='card-body'><h5 class='card-title'>";
     html2 += json2.title
-    html2 += "</h5><p class='card-text'>"
-    html2 += json2.author
+    html2 += "</h5><p class='card-text'><a href='/Web/user.html?user="+json2.author+"'>"
+    html2 += json2.author+"</a>"
     html2 += "</p><a href='"+"/Web/newsView.html?hash="+json2._id+"'"+"class='button'>Open"
     html2 += "</a></div></div></div></div>"
 
