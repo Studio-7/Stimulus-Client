@@ -130,15 +130,15 @@ function subscribe(callback) {
 }
 
 //Gets news published by that particular user
-function getNews(channel) {
+function getNews(channel, callback) {
     // const phrase = createPhrase(32);
     // const channel = "0x2a5f493594ef5e7d81448c237dfb87003485fce5";
     // sign(toHex(phrase), function(sign) {
     // });
 
-        const url = "http://localhost:3000/news/"+channel;
+        const url = "http://"+ip+"/news/"+channel;
         getRequest(url, function(resp) {
-            document.getElementById("articles").innerText = resp;
+            callback(resp);
         });
 }
 
