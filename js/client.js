@@ -148,7 +148,7 @@ function getAllNews(mined, callback) {
     sign(toHex(phrase), function(sign) {
         const server = "http://"+ip+"/news/getNews";
         // const mined = "false";
-        postData("sign="+sign+"&phrase="+phrase+"&mined="+mined, server, callback);
+        postData("sign="+sign+"&phrase="+phrase+"&mined="+mined, server, callback, mined);
     });
 }
 
@@ -173,7 +173,7 @@ function voteNo(ipfsHash) {
     mining.methods.vote(ipfsHash, false).send().then((tx) => console.log(tx));
 }
 
-function postData(data, server, callback) {
+function postData(data, server, callback, mined) {
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", server);
     xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -183,7 +183,7 @@ function postData(data, server, callback) {
         if(xhttp.readyState === 4 && xhttp.status === 200) {
             // alert("Successful!");
             console.log("Successful");
-            callback(xhttp.responseText);
+            callback(xhttp.responseText, mined);
         }
         
         console.log(xhttp.responseText);
