@@ -170,14 +170,28 @@
 </head>
 
 <body>
-    <iframe id="news" height="400px"></iframe>
+    <iframe id="news" height="85%" width="100%"></iframe>
+    <button type="button" id="voteyes" class="btn btn-success">Yes</button>
+    <button type="button" id="voteno" class="btn btn-danger">No</button>
+    <script src="../js/client.js"></script>
     <script type="text/javascript">
         window.onload = function() {
+            
             console.log(location.href);
             var query = location.href.split("?")[1];
             var hash = query.split("=")[1]
             console.log(hash)
+            // checkDeadline(hash)
             $('#news').prop('src', "http://gateway.ipfs.io/ipfs/"+hash)
+            
+            $('#voteyes').click(function() {
+                console.log("Vote yes")
+                voteYes(hash);
+            })
+            $('#voteno').click(function() {
+                console.log("Vote no")
+                voteNo(hash);
+            })
         }
     </script>
 </body>

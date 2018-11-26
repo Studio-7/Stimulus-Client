@@ -88,7 +88,7 @@ function submit() {
                 timeout: 600000,
                 success: function(data) {
                     console.log(JSON.stringify(data));
-                    writeToBlockchain(data.hash, 2);
+                    writeToBlockchain(data.hash, 5);
                     //Write to the blockchain
 
                 },
@@ -205,6 +205,10 @@ function getRequest(url, callback) {
         // console.log(xhttp.responseText);
         
     }
+}
+
+async function checkDeadline(ipfsHash) {
+    mining.methods.checkDeadline(ipfsHash).send().then((tx) => console.log(tx));
 }
 
 //To write the article hash to the blockchain
